@@ -27,3 +27,5 @@ echo $greeter->sayHello('?');
 echo "Greeting $informalGreeter->getTarget() ... ";
 $informalGreeter->sayHello();
 echo PHP_EOL . PHP_EOL . PHP_EOL;
+
+?>
