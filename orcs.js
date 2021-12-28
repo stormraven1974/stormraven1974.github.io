@@ -128,9 +128,16 @@ function renderGameBoard(scene) {
         renderOrcs(scene, gameState.teamOrcs[currentTeam]);
         renderElves(scene, 2);
 
-        scene.physics.add.collider(gameState.elves, gameState.orcs, function () {
-            console.log("Collision!");
-        })
+
+        scene.physics.world.step(0);
+
+        scene.physics.world.overlap(gameState.elves, gameState.orcs, function (elf, orc) {
+            elf.destroy();
+            orc.destroy();
+            createElf( scene );
+            createOrc( scene );
+            console.log ("Overlap!");
+        });
     }
     else {
 
@@ -262,6 +269,49 @@ function nextTeam() {
     }
 }
 
+function createElf (scene) {
+    var zombieX = Phaser.Math.Between(150, 1050);
+    var zombieY = Phaser.Math.Between(250, 1050);
+
+    var whichElf = "elf" +  Math.floor (Math.random() * 2);
+
+    var thisElf = gameState.elves.create (zombieX, zombieY, whichElf)
+    thisElf.setOrigin(1, 1);
+    thisElf.setScale(0.3);
+    thisElf.setInteractive();
+
+    thisElf.body.setSize (thisElf.width * (0.3), thisElf.height * 0.3, true);
+
+    thisElf.on('pointerover', function()
+    {
+        this.strokeColor = 0xffffff; this.setBlendMode(Phaser.BlendModes.SCREEN)
+    })
+
+    thisElf.on('pointerout', function()
+    {
+        this.strokeColor = 0x000000; this.setBlendMode(Phaser.BlendModes.NORMAL)
+    })
+
+    thisElf.on('pointerup', function() {
+        //console.log ("Orc Clicked!");
+        registerShot(-2);
+        clearBoard( scene );
+        renderGameBoard (scene);
+    })
+
+
+    scene.physics.world.overlap(thisElf, gameState.orcs, function (elf, orc) {
+        thisElf.destroy();
+        console.log ("Overlap creating Elf!");
+    });
+
+    scene.physics.world.overlap(thisElf, gameState.elves, function (elf, orc) {
+        thisElf.destroy();
+        console.log ("Overlap creating Elf!");
+    });
+
+}
+
 function renderElves( scene, number ) {
 
     var elfIndex = 2;
@@ -270,73 +320,84 @@ function renderElves( scene, number ) {
 
     gameState.elves = scene.physics.add.staticGroup();
 
-    for (elfIndex = 0; elfIndex < number; elfIndex++) {
+    var keepGoing = true;
 
-        var zombieX = 150 + Math.random() * 900;
-        var zombieY = 250 + Math.random() * 800;
+    while (keepGoing) {
+        createElf(scene);
 
-        var whichElf = "elf" +  Math.floor (Math.random() * 2);
+        elfIndex++;
 
-        var thisElf = gameState.elves.create (zombieX, zombieY, whichElf)
-        thisElf.setOrigin(1, 1);
-        thisElf.setScale(.3);
-        thisElf.setInteractive();
-
-        thisElf.on('pointerover', function()
-        {
-            this.strokeColor = 0xffffff; this.setBlendMode(Phaser.BlendModes.SCREEN)
-        })
-        thisElf.on('pointerout', function()
-        {
-            this.strokeColor = 0x000000; this.setBlendMode(Phaser.BlendModes.NORMAL)
-        })
-        thisElf.on('pointerup', function() {
-            //console.log ("Orc Clicked!");
-            registerShot(-2);
-            clearBoard( scene );
-            renderGameBoard (scene);
-        })
+        if (gameState.elves.countActive() >= number) {
+            keepGoing = false;
+        }
     }
+}
+
+function createOrc( scene ) {
+    var zombieX = Phaser.Math.Between(150, 1050);
+    var zombieY = Phaser.Math.Between(250, 1050);
+
+    var whichOrc = "orc" +  Math.floor (Math.random() * 4);
+
+    var thisOrc = gameState.orcs.create(zombieX, zombieY, whichOrc)
+    thisOrc.setOrigin(1, 1);
+    thisOrc.setScale(0.3);
+    thisOrc.setInteractive();
+
+    thisOrc.body.setSize (thisOrc.displayWidth , thisOrc.displayHeight , true);
+
+    console.log (thisOrc);
+
+    thisOrc.on('pointerover', function()
+    {
+        this.strokeColor = 0xffffff; this.setBlendMode(Phaser.BlendModes.SCREEN)
+    })
+    thisOrc.on('pointerout', function()
+    {
+        this.strokeColor = 0x000000; this.setBlendMode(Phaser.BlendModes.NORMAL)
+    })
+    thisOrc.on('pointerup', function() {
+        //console.log ("Orc Clicked!");
+        registerShot(1);
+        clearBoard( scene );
+        renderGameBoard (scene);
+    })
+
+    scene.physics.world.overlap(thisOrc, gameState.orcs, function (thisOrc, thatOrc) {
+        thisOrc.destroy();
+        console.log ("Overlap! creating Orc");
+        //console.log ( thisOrc );
+        //console.log (thatOrc);
+    });
+
+
 }
 
 function renderOrcs( scene, number ) {
     //console.log ("inside renderOrcs, number = " + number);
 
     var orcIndex = 0;
+    var orcCount = 0;
 
     if (gameState.orcs)
         gameState.orcs.destroy();
 
     gameState.orcs = scene.physics.add.staticGroup();
 
-    for (orcIndex = 0; orcIndex < number; orcIndex++) {
+    var keepGoing = true;
 
-        var zombieX = 150 + Math.random() * 900;
-        var zombieY = 250 + Math.random() * 800;
+    while (keepGoing) {
+        createOrc( scene );
 
-        var whichOrc = "orc" +  Math.floor (Math.random() * 4);
+        orcIndex++;
 
-        var thisOrc = gameState.orcs.create(zombieX, zombieY, whichOrc)
-        thisOrc.setOrigin(1, 1);
-        thisOrc.setScale(.3);
-        thisOrc.setInteractive();
-
-
-        thisOrc.on('pointerover', function()
-        {
-            this.strokeColor = 0xffffff; this.setBlendMode(Phaser.BlendModes.SCREEN)
-        })
-        thisOrc.on('pointerout', function()
-        {
-            this.strokeColor = 0x000000; this.setBlendMode(Phaser.BlendModes.NORMAL)
-        })
-        thisOrc.on('pointerup', function() {
-            //console.log ("Orc Clicked!");
-            registerShot(1);
-            clearBoard( scene );
-            renderGameBoard (scene);
-        })
+        if (gameState.orcs.countActive() >= number) {
+            keepGoing = false;
+        }
     }
+
+    console.log (  (gameState.orcs.countActive() ) );
+
 }
 
 function clearBoard(scene) {
