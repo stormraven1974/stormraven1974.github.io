@@ -58,11 +58,7 @@ function initializePage(scene) {
             fontSize: '25px',
             stroke: '#000000',
             strokeThickness: 5,
-            displayOriginX: 0,
-            displayOriginY: 0,
-            originX: 0,
-            originY: 0
-        }).setOrigin(0, 0);
+        });
 
     const scoreBox = scene.add.rectangle (0, 0, 1200, 100, 0x654321);
     scoreBox.setOrigin(0, 0);
@@ -98,23 +94,27 @@ function initializePage(scene) {
         renderGameBoard(scene);
     })
 
-    scene.add.text(1035, 12, 'MISS',
+    const missLine = scene.add.text(1035, 12, 'MISS',
         {
             fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
             color: '#ffffff',
             fontSize: '50px',
             stroke: '#000000',
             strokeThickness: 5,
-        }).setOrigin(0, 0);
+        });
 
-    scene.add.text(350, 1160, 'Axe Throwing Software by Stormraven Software',
+    missLine.setOrigin(0, 0);
+
+    const tagLine = scene.add.text(350, 1160, 'Axe Throwing Software by Stormraven Software',
         {
             fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
             color: '#ffffff',
             fontSize: '25px',
             stroke: '#000000',
             strokeThickness: 5,
-        }).setOrigin(0, 0);
+        });
+
+    tagLine.setOrigin(0, 0);
 }
 
 function renderGameBoard(scene) {
@@ -134,14 +134,17 @@ function renderGameBoard(scene) {
     }
     else {
 
-        scene.add.text(450, 500, 'GAME OVER',
+        const gameOverLine = scene.add.text(450, 500, 'GAME OVER',
             {
                 fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
                 color: '#ffffff',
                 fontSize: '55px',
                 stroke: '#000000',
                 strokeThickness: 5,
-            }).setOrigin(0, 0);
+            });
+
+        gameOverLine.setOrigin(0, 0);
+
         var teamIndex = 0;
         var winningScore = 0;
         var winningTeam = 0;
@@ -159,14 +162,16 @@ function renderGameBoard(scene) {
             }
         }
 
-        scene.add.text(150, 700, "WINNER: " + gameState.teamNames[ winningTeam ],
+        const winningTeamLine = scene.add.text(150, 700, "WINNER: " + gameState.teamNames[ winningTeam ],
             {
                 fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-                color: '#000000',
+                color: '#ffffff',
                 fontSize: '55px',
                 stroke: '#000000',
                 strokeThickness: 5,
-            }).setOrigin(0, 0);
+            });
+
+        winningTeamLine.setOrigin(0, 0);
 
     }
 }
@@ -205,7 +210,9 @@ function renderScore (scene) {
                     fontSize: '20px',
                     stroke: '#000000',
                     strokeThickness: 3,
-                }).setOrigin(0, 0);
+                });
+
+            scoreText.setOrigin(0, 0);
 
             if (gameState.scores[teamIndex][roundIndex] )
                 teamTotal += gameState.scores[teamIndex][roundIndex];
@@ -229,7 +236,9 @@ function renderScore (scene) {
                 fontSize: '20px',
                 stroke: '#000000',
                 strokeThickness: 3,
-            }).setOrigin(0, 0);
+            });
+
+        totalText.setOrigin(0, 0);
     }
 
 
