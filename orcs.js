@@ -58,9 +58,7 @@ function initializePage(scene) {
             fontSize: '25px',
             stroke: '#000000',
             strokeThickness: 5,
-            displayOriginX: 0,
-            displayOriginY: 0
-        });
+        }).setOrigin(0, 0);
 
     const scoreBox = scene.add.rectangle (0, 0, 1200, 100, 0x654321);
     scoreBox.setOrigin(0, 0);
@@ -103,11 +101,7 @@ function initializePage(scene) {
             fontSize: '50px',
             stroke: '#000000',
             strokeThickness: 5,
-            displayOriginX: 0,
-            displayOriginY: 0
-
-        });
-
+        }).setOrigin(0, 0);
 
     scene.add.text(350, 1160, 'Axe Throwing Software by Stormraven Software',
         {
@@ -116,10 +110,7 @@ function initializePage(scene) {
             fontSize: '25px',
             stroke: '#000000',
             strokeThickness: 5,
-            displayOriginX: 0,
-            displayOriginY: 0
-
-        });
+        }).setOrigin(0, 0);
 }
 
 function renderGameBoard(scene) {
@@ -146,11 +137,7 @@ function renderGameBoard(scene) {
                 fontSize: '55px',
                 stroke: '#000000',
                 strokeThickness: 5,
-                displayOriginX: 0,
-                displayOriginY: 0
-
-            });
-
+            }).setOrigin(0, 0);
         var teamIndex = 0;
         var winningScore = 0;
         var winningTeam = 0;
@@ -175,10 +162,7 @@ function renderGameBoard(scene) {
                 fontSize: '55px',
                 stroke: '#000000',
                 strokeThickness: 5,
-                displayOriginX: 0,
-                displayOriginY: 0
-
-            });
+            }).setOrigin(0, 0);
 
     }
 }
@@ -198,10 +182,7 @@ function renderScore (scene) {
                     fontSize: '20px',
                     stroke: '#000000',
                     strokeThickness: 2,
-                    displayOriginX: 0,
-                    displayOriginY: 0
-
-                });
+                }).setOrigin(0, 0);
 
         // Create a box for each of the score rounds for each team
 
@@ -220,10 +201,7 @@ function renderScore (scene) {
                     fontSize: '20px',
                     stroke: '#000000',
                     strokeThickness: 3,
-                    displayOriginX: 0,
-                    displayOriginY: 0
-
-                });
+                }).setOrigin(0, 0);
 
             if (gameState.scores[teamIndex][roundIndex] )
                 teamTotal += gameState.scores[teamIndex][roundIndex];
@@ -247,10 +225,7 @@ function renderScore (scene) {
                 fontSize: '20px',
                 stroke: '#000000',
                 strokeThickness: 3,
-                displayOriginX: 0,
-                displayOriginY: 0
-
-            });
+            }).setOrigin(0, 0);
     }
 
 
