@@ -58,6 +58,10 @@ function initializePage(scene) {
             fontSize: '25px',
             stroke: '#000000',
             strokeThickness: 5,
+            displayOriginX: 0,
+            displayOriginY: 0,
+            originX: 0,
+            originY: 0
         }).setOrigin(0, 0);
 
     const scoreBox = scene.add.rectangle (0, 0, 1200, 100, 0x654321);
