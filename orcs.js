@@ -57,7 +57,9 @@ function initializePage(scene) {
             color: '#ffffff',
             fontSize: '25px',
             stroke: '#000000',
-            strokeThickness: 5
+            strokeThickness: 5,
+            displayOriginX: 0,
+            displayOriginY: 0
         });
 
     const scoreBox = scene.add.rectangle (0, 0, 1200, 100, 0x654321);
@@ -100,7 +102,10 @@ function initializePage(scene) {
             color: '#ffffff',
             fontSize: '50px',
             stroke: '#000000',
-            strokeThickness: 5
+            strokeThickness: 5,
+            displayOriginX: 0,
+            displayOriginY: 0
+
         });
 
 
@@ -110,7 +115,10 @@ function initializePage(scene) {
             color: '#ffffff',
             fontSize: '25px',
             stroke: '#000000',
-            strokeThickness: 5
+            strokeThickness: 5,
+            displayOriginX: 0,
+            displayOriginY: 0
+
         });
 }
 
@@ -137,7 +145,10 @@ function renderGameBoard(scene) {
                 color: '#ffffff',
                 fontSize: '55px',
                 stroke: '#000000',
-                strokeThickness: 5
+                strokeThickness: 5,
+                displayOriginX: 0,
+                displayOriginY: 0
+
             });
 
         var teamIndex = 0;
@@ -163,7 +174,10 @@ function renderGameBoard(scene) {
                 color: '#000000',
                 fontSize: '55px',
                 stroke: '#000000',
-                strokeThickness: 5
+                strokeThickness: 5,
+                displayOriginX: 0,
+                displayOriginY: 0
+
             });
 
     }
@@ -183,7 +197,10 @@ function renderScore (scene) {
                     color: '#ffffff',
                     fontSize: '20px',
                     stroke: '#000000',
-                    strokeThickness: 2
+                    strokeThickness: 2,
+                    displayOriginX: 0,
+                    displayOriginY: 0
+
                 });
 
         // Create a box for each of the score rounds for each team
@@ -202,7 +219,10 @@ function renderScore (scene) {
                     color: '#000000',
                     fontSize: '20px',
                     stroke: '#000000',
-                    strokeThickness: 3
+                    strokeThickness: 3,
+                    displayOriginX: 0,
+                    displayOriginY: 0
+
                 });
 
             if (gameState.scores[teamIndex][roundIndex] )
@@ -226,7 +246,10 @@ function renderScore (scene) {
                 color: '#000000',
                 fontSize: '20px',
                 stroke: '#000000',
-                strokeThickness: 3
+                strokeThickness: 3,
+                displayOriginX: 0,
+                displayOriginY: 0
+
             });
     }
 
@@ -312,13 +335,13 @@ function renderOrcs( scene, number ) {
 
 
         thisOrc.on('pointerover', function()
-            {
-                this.strokeColor = 0xffffff; this.setBlendMode(Phaser.BlendModes.SCREEN)
-            })
+        {
+            this.strokeColor = 0xffffff; this.setBlendMode(Phaser.BlendModes.SCREEN)
+        })
         thisOrc.on('pointerout', function()
-            {
-                this.strokeColor = 0x000000; this.setBlendMode(Phaser.BlendModes.NORMAL)
-            })
+        {
+            this.strokeColor = 0x000000; this.setBlendMode(Phaser.BlendModes.NORMAL)
+        })
         thisOrc.on('pointerup', function() {
             //console.log ("Orc Clicked!");
             registerShot(1);
