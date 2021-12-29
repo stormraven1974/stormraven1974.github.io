@@ -136,25 +136,18 @@ function renderGameBoard(scene) {
             orc.destroy();
             createElf( scene );
             createOrc( scene );
-            console.log ("Overlap!");
+            //console.log ("Overlap!");
         });
     }
     else {
 
-        const gameOverLine = scene.add.text(450, 500, 'GAME OVER',
-            {
-                fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-                color: '#ffffff',
-                fontSize: '55px',
-                stroke: '#000000',
-                strokeThickness: 5,
-            });
-
-        gameOverLine.setOrigin(0, 0);
+        const screenCenterX = 600;
+        const screenCenterY = 600;
 
         var teamIndex = 0;
         var winningScore = 0;
         var winningTeam = 0;
+        var numWinningTeams = 0;
 
         for (teamIndex = 0; teamIndex < gameState.numTeams; teamIndex++) {
             var teamTotal = 0;
@@ -163,22 +156,39 @@ function renderGameBoard(scene) {
                 if (gameState.scores[teamIndex][roundIndex] )
                     teamTotal += gameState.scores[teamIndex][roundIndex];
             }
+
             if (teamTotal > winningScore) {
                 winningTeam = teamIndex;
                 winningScore = teamTotal;
+                numWinningTeams = 1;
+            }
+            else if (teamTotal == winningScore) {
+                numWinningTeams++;
             }
         }
 
-        const winningTeamLine = scene.add.text(150, 700, "WINNER: " + gameState.teamNames[ winningTeam ],
-            {
-                fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-                color: '#ffffff',
-                fontSize: '55px',
-                stroke: '#000000',
-                strokeThickness: 5,
-            });
-
-        winningTeamLine.setOrigin(0, 0);
+        if (numWinningTeams == 1) {
+            const winningTeamLine = scene.add.text(screenCenterX - 300, screenCenterY - 100, "GAME OVER\n\nWINNER:\n" + gameState.teamNames[winningTeam] + "\n\nCLICK TO RESTART",
+                {
+                    fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+                    color: '#ffffff',
+                    fontSize: '55px',
+                    stroke: '#000000',
+                    strokeThickness: 5,
+                    align: 'center',
+                }).setOrigin(0, 0.5);
+        }
+        else {
+            const winningTeamLine = scene.add.text(screenCenterX - 200, screenCenterY - 100, "GAME OVER\n\nTIE GAME\n\nCLICK TO RESTART",
+                {
+                    fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+                    color: '#ffffff',
+                    fontSize: '55px',
+                    stroke: '#000000',
+                    strokeThickness: 5,
+                    align: 'center',
+                }).setOrigin(0, 0.5);
+        }
 
     }
 }
@@ -189,15 +199,25 @@ function renderScore (scene) {
     for (teamIndex = 0; teamIndex < gameState.numTeams; teamIndex++) {
         var teamY = 10 + (40 * teamIndex);
         var teamTotal = 0;
+        var nameColor = '#ffffff';
+        var strokeColor = '#000000';
+
+        if (gameState.nameObjects[teamIndex])
+            gameState.nameObjects[teamIndex].destroy();
+
+        if (teamIndex == gameState.teamUp) {
+            nameColor = '#ffffff';
+            strokeColor = '#ff0000';
+        }
 
         gameState.nameObjects[teamIndex] =
             scene.add.text(50,  teamY, gameState.teamNames[teamIndex],
                 {
                     fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-                    color: '#ffffff',
+                    color: nameColor,
                     fontSize: '20px',
-                    stroke: '#000000',
-                    strokeThickness: 2,
+                    stroke: strokeColor,
+                    strokeThickness: 1,
                 }).setOrigin(0, 0);
 
         // Create a box for each of the score rounds for each team
@@ -270,7 +290,7 @@ function nextTeam() {
 }
 
 function createElf (scene) {
-    var zombieX = Phaser.Math.Between(150, 1050);
+    var zombieX = Phaser.Math.Between(150, 1100);
     var zombieY = Phaser.Math.Between(250, 1050);
 
     var whichElf = "elf" +  Math.floor (Math.random() * 2);
@@ -302,12 +322,12 @@ function createElf (scene) {
 
     scene.physics.world.overlap(thisElf, gameState.orcs, function (elf, orc) {
         thisElf.destroy();
-        console.log ("Overlap creating Elf!");
+        //console.log ("Overlap creating Elf!");
     });
 
     scene.physics.world.overlap(thisElf, gameState.elves, function (elf, orc) {
         thisElf.destroy();
-        console.log ("Overlap creating Elf!");
+        //console.log ("Overlap creating Elf!");
     });
 
 }
@@ -334,7 +354,7 @@ function renderElves( scene, number ) {
 }
 
 function createOrc( scene ) {
-    var zombieX = Phaser.Math.Between(150, 1050);
+    var zombieX = Phaser.Math.Between(150, 1100);
     var zombieY = Phaser.Math.Between(250, 1050);
 
     var whichOrc = "orc" +  Math.floor (Math.random() * 4);
@@ -346,7 +366,7 @@ function createOrc( scene ) {
 
     thisOrc.body.setSize (thisOrc.displayWidth , thisOrc.displayHeight , true);
 
-    console.log (thisOrc);
+    //console.log (thisOrc);
 
     thisOrc.on('pointerover', function()
     {
@@ -365,7 +385,7 @@ function createOrc( scene ) {
 
     scene.physics.world.overlap(thisOrc, gameState.orcs, function (thisOrc, thatOrc) {
         thisOrc.destroy();
-        console.log ("Overlap! creating Orc");
+        //console.log ("Overlap! creating Orc");
         //console.log ( thisOrc );
         //console.log (thatOrc);
     });
@@ -396,7 +416,7 @@ function renderOrcs( scene, number ) {
         }
     }
 
-    console.log (  (gameState.orcs.countActive() ) );
+    //console.log (  (gameState.orcs.countActive() ) );
 
 }
 
